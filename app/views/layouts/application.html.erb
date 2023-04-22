@@ -13,6 +13,22 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <% if flash[:error].present? %>
+      <div class="alert alert-danger">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+    <% if user_signed_in? %>
+      <nav>
+        <%= link_to "Cerrar sesión", destroy_user_session_path, method: :delete %>
+      </nav>
+    <% else %>
+      <nav>
+        <%= link_to "Iniciar sesión", new_user_session_path %>
+        <%= link_to "Crear cuenta", new_user_registration_path %>
+      </nav>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
