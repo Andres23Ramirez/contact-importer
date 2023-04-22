@@ -1,0 +1,47 @@
+version: "3"
+services:
+    contact-importer-db:
+      platform: linux/arm64/v8
+      image: "postgres:15-alpine3.17"
+      container_name: contact-importer-db
+      ports:
+          - "5432:5432"
+      environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: deployinc
+      networks:
+        default:
+          ipv4_address: 172.21.0.2
+
+    web:
+        image: contact-importer
+        container_name: contact-importer
+        build: .
+        environment:
+            RAILS_ROOT: /opt/contact-importer
+        volumes:
+            - .:/opt/contact-importer
+        command: sh /opt/contact-importer/script/docker-start.sh
+        depends_on:
+            - contact-importer-db
+        tty: true
+        ports:
+            - "3000:3000"
+        deploy:
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: 3G
+            restart_policy:
+                condition: on-failure
+                max_attempts: 3
+        networks:
+          default:
+            ipv4_address: 172.21.0.7
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
