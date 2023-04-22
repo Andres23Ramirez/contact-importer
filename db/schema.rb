@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_22_204208) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_205719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.date "date_of_birth"
+    t.string "phone"
+    t.string "address"
+    t.string "credit_card_number"
+    t.string "credit_card_network"
+    t.string "email"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
 
   create_table "imported_files", force: :cascade do |t|
     t.string "name"
@@ -35,5 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_22_204208) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "contacts", "users"
   add_foreign_key "imported_files", "users"
 end
