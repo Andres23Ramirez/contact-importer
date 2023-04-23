@@ -1,0 +1,7 @@
+<%= form_with url: imported_files_create_path, local: true, multipart: true, data: {turbo: false} do |form| %>
+  <div class="form-group">
+    <%= form.label :file, "CSV File" %>
+    <%= form.file_field :file, accept: '.csv' %>
+  </div>
+  <%= form.submit "Upload", class: "btn btn-primary", name: nil  %>
+<% end %>

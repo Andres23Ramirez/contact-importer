@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_22_205719) do
 
   create_table "imported_files", force: :cascade do |t|
     t.string "name"
-    t.string "status"
+    t.integer "status", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

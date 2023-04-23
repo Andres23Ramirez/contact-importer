@@ -20,12 +20,12 @@
     <% end %>
     <% if user_signed_in? %>
       <nav>
-        <%= link_to "Cerrar sesión", destroy_user_session_path, method: :delete %>
+        <%= button_to "Log Out", destroy_user_session_path, method: :delete %>
       </nav>
     <% else %>
       <nav>
-        <%= link_to "Iniciar sesión", new_user_session_path %>
-        <%= link_to "Crear cuenta", new_user_registration_path %>
+        <%= link_to "Log In", new_user_session_path %>
+        <%= link_to "Sign up", new_user_registration_path %>
       </nav>
     <% end %>
 

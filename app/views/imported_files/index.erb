@@ -1,0 +1,20 @@
+<h1>Imported Files</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @imported_files && @imported_files.each do |imported_file| %>
+      <tr>
+        <td><%= imported_file.name %></td>
+        <td><%= imported_file.status %></td>
+        <td><%= imported_file.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
