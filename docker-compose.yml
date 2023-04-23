@@ -27,14 +27,6 @@ services:
         tty: true
         ports:
             - "3000:3000"
-        deploy:
-            resources:
-                limits:
-                    cpus: '1'
-                    memory: 3G
-            restart_policy:
-                condition: on-failure
-                max_attempts: 3
         networks:
           default:
             ipv4_address: 172.21.0.7

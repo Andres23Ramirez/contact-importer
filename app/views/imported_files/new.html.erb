@@ -4,24 +4,30 @@
     <%= form.file_field :file, accept: '.csv', required: true %>
   </div>
   <p>Assign to each column the column name acording to file that you will upload</p>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Column</th>
-        <th>Selected Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% (1..7).each do |i| %>
+  <div class="form-group">
+    <table class="table">
+      <thead>
         <tr>
-          <td>Column <%= i %></td>
-          <td>
-            <%= form.select "column_#{i}", options_for_select(["", "Name", "Date of Birth", "Phone", "Address", "Credit Card Number", "Credit Card Network", "Email"], selected: nil), {}, { prompt: "Select a value" } %>
-          </td>
+          <th>Column</th>
+          <th>Selected Value</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% (1..7).each do |i| %>
+          <tr>
+            <td>Column <%= i %></td>
+            <td>
+              <%= form.select "column_#{i}", options_for_select(["", "Name", "Date of Birth", "Phone", "Address", "Credit Card Number", "Credit Card Network", "Email"], selected: nil), {}, { prompt: "Select a value" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <%= form.label :headers, "The file has headers" %>
+    <%= form.check_box :headers, checked: true %>
+  </div>
   <%= form.submit "Upload", name: nil, id: "upload", class: "btn btn-primary", disabled: true %>
 <% end %>
 
