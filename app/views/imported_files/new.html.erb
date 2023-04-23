@@ -1,7 +1,66 @@
 <%= form_with url: imported_files_create_path, local: true, multipart: true, data: {turbo: false} do |form| %>
   <div class="form-group">
     <%= form.label :file, "CSV File" %>
-    <%= form.file_field :file, accept: '.csv' %>
+    <%= form.file_field :file, accept: '.csv', required: true %>
   </div>
-  <%= form.submit "Upload", class: "btn btn-primary", name: nil  %>
+  <p>Assign to each column the column name acording to file that you will upload</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Selected Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (1..7).each do |i| %>
+        <tr>
+          <td>Column <%= i %></td>
+          <td>
+            <%= form.select "column_#{i}", options_for_select(["", "Name", "Date of Birth", "Phone", "Address", "Credit Card Number", "Credit Card Network", "Email"], selected: nil), {}, { prompt: "Select a value" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= form.submit "Upload", name: nil, id: "upload", class: "btn btn-primary", disabled: true %>
 <% end %>
+
+<script>
+  // Get all the select elements
+  var selects = document.querySelectorAll('select');
+
+  // Initialize an array to hold the selected options
+  var selectedOptions = [];
+
+  // Disable the submit button by default
+  var submitButton = document.getElementById("upload");
+  submitButton.disabled = true;
+
+  // Attach an event listener to each select element
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].addEventListener('change', function(e) {
+      var select = e.target;
+      var selectedOption = select.value;
+
+      // Remove the selected option from the other select elements
+      for (var j = 0; j < selects.length; j++) {
+        if (selects[j] !== select) {
+          var options = selects[j].options;
+          for (var k = 0; k < options.length; k++) {
+            if (options[k].value === selectedOption) {
+              options[k].disabled = true;
+            }
+          }
+        }
+      }
+
+      // Add the selected option to the selectedOptions array
+      selectedOptions.push(selectedOption);
+
+      // Check if all select elements have a unique value
+      if (new Set(selectedOptions).size === selects.length) {
+        submitButton.disabled = false;
+      }
+    });
+  }
+</script>

@@ -25,6 +25,6 @@ class ImportedFilesController < ApplicationController
   private
 
   def imported_file_params
-    params.permit(:file, :authenticity_token)
+    params.permit(:file, :authenticity_token, :column_1, :column_2, :column_3, :column_4, :column_5, :column_6, :column_7 )
   end
 end
