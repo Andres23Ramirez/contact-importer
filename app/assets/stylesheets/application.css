@@ -37,6 +37,19 @@
   font-size: 1.1rem;
 }
 
+.pagination {
+  background-color: #f4f8f1;
+  align-items: center;
+  padding: 1rem;
+}
+
+.pagination span {
+  color: #333;
+  text-decoration: none;
+  margin-right: 1rem;
+  font-size: 1.1rem;
+}
+
 .navigation a:hover {
   color: #555;
 }

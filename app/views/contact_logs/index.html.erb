@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @contacts.each do |contact| %>
+    <% @contactLogs.each do |contact| %>
       <tr>
         <td><%= contact.name %></td>
         <td><%= contact.date_of_birth %></td>
@@ -30,3 +30,4 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @contactLogs %>

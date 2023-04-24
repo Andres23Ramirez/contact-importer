@@ -41,78 +41,50 @@ class Contact < ApplicationRecord
   end
 
   def get_credit_card_network
-    iin = credit_card_number.to_s[0..5]
-    case iin
-    when /^(34|37)/
-      "American Express"
-    when /^5610/
-      "Bankcard"
-    when /^31/
-      "China T-Union"
-    when /^62/
-      "China UnionPay"
-    when /^36/
-      "Diners Club International"
-    when /^54/
-      "Diners Club United States & Canada"
-    when /^(6011|65|644|645|646|647|648|649)/
-      "Discover"
-    when /^622/
-      "China UnionPay"
-    when /^604001/
-      "UkrCard"
-    when /^(60|81|82|508)/
-      "RuPay"
-    when /^636/
-      "InterPayment"
-    when /^637/
-      "InstaPayment"
-    when /^(352[8-9]|35[3-8][0-9])/
-      "JCB"
-    when /^(6304|670[69]|6771)/
-      "Laser"
-    when /^(5018|5020|5038|6304|6759|676[1-3])/
-      "Maestro"
-    when /^5019/
-      "Dankort"
-    when /^4571/
-      "Visa"
-    when /^(2200|2201|2202|2203|2204)/
-      "Mir"
-    when /^2205/
-      "BORICA"
-    when /^65/
-      "Troy"
-    when /^(222[1-9]|22[3-6][0-9]|227[0-2][0-9]|2273[0-5])/
-      "Mastercard"
-    when /^(51|52|53|54|55)/
-      "Mastercard"
-    when /^(6334|6767)/
-      "Solo"
-    when /^(4903|4905|4911|4936|6333|6759|564182|633110)/
-      "Switch"
-    when /^4/
-      "Visa"
-    when /^(4026|417500|4508|4844|491(3|7))/
-      "Visa Electron"
-    when /^1/
-      "UATP"
-    when /^(506099|5061[0-8][0-9]|650002|650003|650004|650005|650006|650007|650008|650009|5078[6-9][0-9]|507[9][0-9]{2}|60698[2-8])/
-      "Verve"
-    when /^357111/
-      "LankaPay"
-    when /^8600/
-      "UzCard"
-    when /^9860/
-      "Humo"
-    when /^([126789])/
-      "GPN"
-    when /^9704/
-      "Napas"
-    else
-      "Unknown"
+    # Visa Electron
+    if credit_card_number =~ /^4(026|17500|405|508|844|91[37])/ && [16, 19].include?(credit_card_number.length)
+      return "visa-electron"
     end
+    
+    # Visa
+    if credit_card_number =~ /^4/ && [13, 16, 19].include?(credit_card_number.length)
+      return "visa"
+    end
+
+    puts "credit_card_number: #{credit_card_number}"
+    puts "credit_card_number: #{credit_card_number.class}"
+    puts "if: #{credit_card_number =~ /^4/}"
+    puts "length: #{credit_card_number.length}"
+    
+    # Mastercard
+    if credit_card_number =~ /^5[1-5]/ && credit_card_number.length == 16
+      return "mastercard"
+    end
+    
+    # American Express
+    if credit_card_number =~ /^3[47]/ && credit_card_number.length == 15
+      return "american-express"
+    end
+    
+    # Discover
+    if credit_card_number =~ /^6(?:011|5)/ && credit_card_number.length == 16
+      return "discover"
+    end
+    
+    # JCB
+    if credit_card_number =~ /^35(?:2[89]|[3-8][0-9])/ && credit_card_number.length == 16
+      return "jcb"
+    end
+    
+    # Diners Club
+    if credit_card_number =~ /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/ && credit_card_number.length == 14
+      return "diners-club"
+    end
+    
+    # Unknown
+    return credit_card_network
   end
+  
 
   private
 

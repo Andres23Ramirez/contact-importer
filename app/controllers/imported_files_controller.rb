@@ -2,7 +2,7 @@ class ImportedFilesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @imported_files = current_user.imported_file.all
+    @imported_files = current_user.imported_file.all.page(params[:page]).per(10)
   end
 
   def new
