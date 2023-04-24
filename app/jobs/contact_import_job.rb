@@ -26,6 +26,18 @@ class ContactImportJob < ApplicationJob
         puts "Contact Save: #{contact.inspect}"
       else
         puts "Error saving contact: #{contact.errors.full_messages.join(", ")}"
+        contactLog = ContactLog.new(
+          name: row[columns.index("Name")],
+          date_of_birth: row[columns.index('Date of Birth')],
+          phone: row[columns.index('Phone')],
+          address: row[columns.index('Address')],
+          credit_card_number: row[columns.index('Credit Card Number')],
+          credit_card_network: row[columns.index('Credit Card Network')],
+          email: row[columns.index('Email')],
+          error: contact.errors.full_messages.join(", "),
+          user: user
+        )
+        contactLog.save
       end
     end
 
