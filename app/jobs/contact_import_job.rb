@@ -35,6 +35,7 @@ class ContactImportJob < ApplicationJob
           credit_card_network: row[columns.index('Credit Card Network')],
           email: row[columns.index('Email')],
           error: contact.errors.full_messages.join(", "),
+          file_imported_name: imported_file.name,
           user: user
         )
         contactLog.save

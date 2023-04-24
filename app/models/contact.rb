@@ -137,25 +137,30 @@ class Contact < ApplicationRecord
   end
 
   def encrypt(value)
-    # Generate a salt
-    salt = BCrypt::Engine.generate_salt
-
-    # Hash the value with the salt
-    hashed_value = BCrypt::Engine.hash_secret(value, salt)
-
-    # Return the hashed value with the salt concatenated
-    "#{hashed_value}$#{salt}"
+    key = ENV['CREDIT_CARD_ENCRYPTION_KEY']
+    key = OpenSSL::Digest::SHA256.digest(key)[0..31]
+    cipher = OpenSSL::Cipher::AES.new(256, :CBC)
+    cipher.encrypt
+    cipher.key = key
+    iv = cipher.random_iv
+    encrypted_value = cipher.update(value) + cipher.final
+    encoded_encrypted_value = Base64.encode64(encrypted_value).chomp
+    encoded_iv = Base64.encode64(iv).chomp
+    "#{encoded_encrypted_value}$#{encoded_iv}"
   end
 
   def decrypt(value)
-    hashed_value, salt = value.split('$')
-
-    # Hash the value with the salt and compare it with the hashed value
-    if BCrypt::Engine.hash_secret(BCrypt::Engine.hash_secret(value, salt), salt) == hashed_value
-      return value
-    else
-      return nil
-    end
+    key = ENV['CREDIT_CARD_ENCRYPTION_KEY']
+    key = OpenSSL::Digest::SHA256.digest(key)[0..31]
+    encoded_encrypted_number, encoded_iv = value.split('$')
+    encrypted_number = Base64.decode64(encoded_encrypted_number)
+    iv = Base64.decode64(encoded_iv)
+    decipher = OpenSSL::Cipher::AES.new(256, :CBC)
+    decipher.decrypt
+    decipher.key = key
+    decipher.iv = iv
+    decrypted_number = decipher.update(encrypted_number) + decipher.final
+    decrypted_number
   end
 
   def set_credit_card_network
