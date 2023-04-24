@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :imported_file
   has_many :contacts
+  has_many :contactLogs
 
   def email
     self.username

@@ -1,0 +1,32 @@
+<h1>All Contact Logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date of Birth</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Credit Card Number</th>
+      <th>Credit Card Network</th>
+      <th>Email</th>
+      <th>file_imported_name</th>
+      <th>error</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= contact.name %></td>
+        <td><%= contact.date_of_birth %></td>
+        <td><%= contact.phone %></td>
+        <td><%= contact.address %></td>
+        <td><%= contact.credit_card_number %></td>
+        <td><%= contact.credit_card_network %></td>
+        <td><%= contact.email %></td>
+        <td><%= contact.file_imported_name %></td>
+        <td><%= contact.error %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
