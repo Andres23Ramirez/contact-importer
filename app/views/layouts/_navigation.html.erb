@@ -1,0 +1,18 @@
+<nav class="navigation">
+  <div>
+    <% if user_signed_in? %>
+      <div>
+        <%= link_to "Contacts", contacts_path %>
+        <%= link_to "Contact Logs", contact_logs_path %>
+        <%= link_to "Imported Files", imported_files_path %>
+        <%= link_to "Upload", imported_files_new_path %>
+      </div>
+      <div>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+      </div>
+    <% else %>
+      <%= link_to "Log In", new_user_session_path %>
+      <%= link_to "Sign up", new_user_registration_path %>
+    <% end %>
+  </div>
+</nav>

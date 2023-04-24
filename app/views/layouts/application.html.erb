@@ -6,27 +6,18 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
+    <%= render "layouts/navigation" %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <% if flash[:error].present? %>
       <div class="alert alert-danger">
         <%= flash[:error] %>
       </div>
-    <% end %>
-    <% if user_signed_in? %>
-      <nav>
-        <%= button_to "Log Out", destroy_user_session_path, method: :delete %>
-      </nav>
-    <% else %>
-      <nav>
-        <%= link_to "Log In", new_user_session_path %>
-        <%= link_to "Sign up", new_user_registration_path %>
-      </nav>
     <% end %>
 
     <%= yield %>
