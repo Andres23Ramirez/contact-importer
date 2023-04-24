@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
   has_many :imported_file
+  has_many :contacts
 
   def email
     self.username

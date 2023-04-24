@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'imported_files/new'
   post 'imported_files/create'
   get '/imported_files', to: 'imported_files#index'
+  get 'contacts', to: 'contacts#index'
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
