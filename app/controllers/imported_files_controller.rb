@@ -14,7 +14,7 @@ class ImportedFilesController < ApplicationController
 
     file = imported_file_params[:file]
 
-    if @imported_file.save!
+    if @imported_file.save
       file_path = Rails.root.join('tmp', file.original_filename)
       File.open(file_path, 'wb') do |f|
         f.write(file.read)
